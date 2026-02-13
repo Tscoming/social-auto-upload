@@ -3,7 +3,8 @@ import json
 import os
 
 # 数据库文件路径（如果不存在会自动创建）
-db_file = './database.db'
+# 确保数据库创建在 db 目录下
+db_file = os.path.join(os.path.dirname(__file__), 'database.db')
 
 # 如果数据库已存在，则删除旧的表（可选）
 # if os.path.exists(db_file):

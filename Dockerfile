@@ -57,6 +57,10 @@ RUN cp conf.example.py conf.py
 
 RUN mkdir -p /app/videoFile
 RUN mkdir -p /app/cookiesFile
+RUN mkdir -p /app/db
+
+# Initialize database tables before starting the application
+RUN python db/createTable.py
 
 EXPOSE 5409
 
