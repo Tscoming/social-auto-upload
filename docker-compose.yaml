@@ -1,0 +1,25 @@
+
+services:
+  social-auto-upload:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: social-auto-upload:latest
+    container_name: social-auto-upload
+
+    # 端口映射
+    ports:
+      - "5409:5409"
+
+    # 目录挂载（等价于 -v $(pwd)/xxx:/app/xxx）
+    volumes:
+      - ./videoFile:/app/videoFile
+      - ./cookies:/app/cookiesFile
+      - ./db:/app/db
+
+    # 等价于 -it
+    tty: true
+    stdin_open: true
+
+    # 容器异常退出自动重启
+    restart: unless-stopped

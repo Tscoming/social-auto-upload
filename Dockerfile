@@ -37,7 +37,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends libnss3 \
     libxrandr2 \
     libgbm1 \
     libxkbcommon0 \
-    libasound2 && rm -rf /var/lib/apt/lists/*
+    libasound2 \
+    libcups2 && rm -rf /var/lib/apt/lists/*
 
 RUN pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
 
@@ -45,7 +46,7 @@ COPY requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
 
-RUN playwright install chromium-headless-shell
+RUN playwright install chromium
 
 COPY . .
 
@@ -54,6 +55,9 @@ COPY --from=builder /app/dist/assets /app/assets
 COPY --from=builder /app/dist/vite.svg /app/assets
 
 RUN cp conf.example.py conf.py
+
+# Set headless mode to True for Docker environment (no X server available)
+RUN sed -i 's/LOCAL_CHROME_HEADLESS = False/LOCAL_CHROME_HEADLESS = True/g' /app/conf.py
 
 RUN mkdir -p /app/videoFile
 RUN mkdir -p /app/cookiesFile
