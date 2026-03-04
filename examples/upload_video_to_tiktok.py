@@ -1,5 +1,8 @@
 import asyncio
+import sys
 from pathlib import Path
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from conf import BASE_DIR
 # from tk_uploader.main import tiktok_setup, TiktokVideo

@@ -1,8 +1,10 @@
 import asyncio
+import sys
 from pathlib import Path
 import sys
 
-sys.path.insert(0, str(Path(__file__).parent.parent)) 
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 from conf import BASE_DIR
 from uploader.douyin_uploader.main import douyin_setup
 
