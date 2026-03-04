@@ -1,5 +1,8 @@
+import sys
 import time
 from pathlib import Path
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from uploader.bilibili_uploader.main import read_cookie_json_file, extract_keys_from_json, random_emoji, BilibiliUploader
 from conf import BASE_DIR

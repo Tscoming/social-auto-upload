@@ -1,6 +1,9 @@
 import configparser
+import sys
 from pathlib import Path
 from time import sleep
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from xhs import XhsClient
 
