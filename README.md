@@ -219,28 +219,27 @@ curl -X POST http://localhost:5409/postVideo \
     "accountList": ["douyin_account.json"],
     "type": 3,
     "title": "测试视频标题",
-    "tags": "#标签1 #标签2",
+    "tags": ["标签1","标签2"],
     "category": 0,
     "enableTimer": false,
     "videosPerDay": 1,
     "dailyTimes": [],
     "startDays": 0,
     "isDraft": false
-  }'
+  }' 
+
 
 # 定时发布视频
-curl -X POST http://localhost:5409/postVideo \
-  -H "Content-Type: application/json" \
-  -d '{
+curl -X POST http://localhost:5409/postVideo   -H "Content-Type: application/json"   -d '{
     "fileList": ["demo.mp4"],
     "accountList": ["douyin_account.json"],
     "type": 3,
     "title": "定时发布视频",
-    "tags": "#定时 #自动化",
+    "tags": ["定时","自动化"],
     "category": 0,
     "enableTimer": true,
     "videosPerDay": 2,
-    "dailyTimes": ["09:00", "18:00"],
+    "dailyTimes": [9, 18],
     "startDays": 1,
     "isDraft": false
   }'

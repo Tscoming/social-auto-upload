@@ -76,7 +76,16 @@ class DouYinVideo(object):
         self.thumbnail_path = thumbnail_path
         self.productLink = productLink
         self.productTitle = productTitle
+        # Display all of attributes of the class, split into multiple lines for better readability  
+        douyin_logger.debug("======================================================")
+        douyin_logger.debug("DouYinVideo initialized with the following attributes:")
+        douyin_logger.debug(f"  title: {self.title}")
+        douyin_logger.debug(f"  file_path: {self.file_path}")
+        douyin_logger.debug(f"  tags: {self.tags}")
+        douyin_logger.debug(f"  publish_date: {self.publish_date}")
+        douyin_logger.debug(f"  account_file: {self.account_file}")   
 
+        
     async def set_schedule_time_douyin(self, page, publish_date):
         # 选择包含特定文本内容的 label 元素
         label_element = page.locator("[class^='radio']:has-text('定时发布')")
