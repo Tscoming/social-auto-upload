@@ -1,8 +1,11 @@
 import asyncio
 from pathlib import Path
+import sys
 
+sys.path.insert(0, str(Path(__file__).parent.parent)) 
 from conf import BASE_DIR
 from uploader.douyin_uploader.main import douyin_setup
+
 
 if __name__ == '__main__':
     account_file = Path(BASE_DIR / "cookies" / "douyin_uploader" / "account.json")
