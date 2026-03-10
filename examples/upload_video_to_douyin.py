@@ -2,8 +2,7 @@ import asyncio
 import sys
 from pathlib import Path
 
-# Add parent directory to path to import conf module
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from conf import BASE_DIR
 from uploader.douyin_uploader.main import douyin_setup, DouYinVideo
@@ -11,7 +10,8 @@ from utils.files_times import generate_schedule_time_next_day, get_title_and_has
 
 
 if __name__ == '__main__':
-    filepath = Path(BASE_DIR) / "videos"
+    filepath = Path(BASE_DIR) / "videoFile"
+    print(f"视频文件目录：{filepath}")
     account_file = Path(BASE_DIR / "cookies" / "douyin_uploader" / "account.json")
     # 获取视频目录
     folder_path = Path(filepath)

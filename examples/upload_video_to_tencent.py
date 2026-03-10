@@ -2,8 +2,7 @@ import asyncio
 import sys
 from pathlib import Path
 
-# Add parent directory to path to import conf module
-sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from conf import BASE_DIR
 from uploader.tencent_uploader.main import weixin_setup, TencentVideo

@@ -12,6 +12,7 @@
 - [🚀 支持的平台](#🚀支持的平台)
 - [💾 安装指南](#💾安装指南)
 - [🏁 快速开始](#🏁快速开始)
+- [🔌 API 接口](#🔌api-接口)
 - [🐇 项目背景](#🐇项目背景)
 - [📃 详细文档](#📃详细文档)
 - [🐾 交流与支持](#🐾交流与支持)
@@ -163,6 +164,112 @@
     ```bash
     python examples/upload_video_to_douyin.py
     ```
+
+## 🔌 API 接口
+
+后端服务运行在 `http://localhost:5409`，提供以下 REST API 接口：
+
+### 文件管理 API
+
+| 方法 | 路由 | 功能 |
+|------|------|------|
+| POST | `/upload` | 上传文件（不保存到数据库） |
+| POST | `/uploadSave` | 上传文件并保存到数据库 |
+| GET | `/getFiles` | 获取所有文件列表 |
+| GET | `/getFile` | 获取单个文件 |
+| GET | `/deleteFile` | 删除文件 |
+
+### 账号管理 API
+
+| 方法 | 路由 | 功能 |
+|------|------|------|
+| GET | `/getAccounts` | 获取所有账号（快速，不验证Cookie） |
+| GET | `/getValidAccounts` | 获取有效账号列表（带Cookie验证） |
+| POST | `/updateUserinfo` | 更新账号信息 |
+| GET | `/deleteAccount` | 删除账号 |
+
+### Cookie 管理 API
+
+| 方法 | 路由 | 功能 |
+|------|------|------|
+| POST | `/uploadCookie` | 上传Cookie文件 |
+| GET | `/downloadCookie` | 下载Cookie文件 |
+
+### 视频发布 API
+
+| 方法 | 路由 | 功能 |
+|------|------|------|
+| POST | `/postVideo` | 发布视频（支持定时发布） |
+| POST | `/postVideoBatch` | 批量发布视频 |
+
+### 登录 API
+
+| 方法 | 路由 | 功能 | 参数 |
+|------|------|------|------|
+| GET | `/login` | 登录（SSE实时通信） | `type`: 1=小红书 2=视频号 3=抖音 4=快手 |
+
+### postVideo 调用示例
+
+```bash
+# 立即发布视频
+curl -X POST http://localhost:5409/postVideo \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fileList": ["demo.mp4"],
+    "accountList": ["douyin_account.json"],
+    "type": 3,
+    "title": "测试视频标题",
+    "tags": ["标签1","标签2"],
+    "category": 0,
+    "enableTimer": false,
+    "videosPerDay": 1,
+    "dailyTimes": [],
+    "startDays": 0,
+    "isDraft": false
+  }' 
+
+
+# 定时发布视频
+curl -X POST http://localhost:5409/postVideo   -H "Content-Type: application/json"   -d '{
+    "fileList": ["demo.mp4"],
+    "accountList": ["douyin_account.json"],
+    "type": 3,
+    "title": "定时发布视频",
+    "tags": ["定时","自动化"],
+    "category": 0,
+    "enableTimer": true,
+    "videosPerDay": 2,
+    "dailyTimes": [9, 18],
+    "startDays": 1,
+    "isDraft": false
+  }'
+```
+
+### 平台 type 值说明
+
+| type | 平台 |
+|------|------|
+| 1 | 小红书 |
+| 2 | 视频号 |
+| 3 | 抖音 |
+| 4 | 快手 |
+
+### CLI 命令行接口
+
+```bash
+# 登录
+python cli_main.py <platform> <account_name> login
+
+# 上传视频
+python cli_main.py <platform> <account_name> upload <video_file> [-pt {0,1}] [-t YYYY-MM-DD HH:MM]
+```
+
+**参数说明：**
+- `platform`: 平台选择 (`douyin`, `tencent`, `tiktok`, `kuaishou`)
+- `account_name`: 账号名称
+- `video_file`: 视频文件路径
+- `-pt/--publish_type`: 发布类型 (`0`=立即, `1`=定时)
+- `-t/--schedule`: 定时发布时间
 
 ## Docker 环境
 ### 自己构建镜像

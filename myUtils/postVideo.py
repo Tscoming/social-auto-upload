@@ -15,7 +15,7 @@ def post_video_tencent(title,files,tags,account_file,category=TencentZoneTypes.L
     account_file = [Path(BASE_DIR / "cookiesFile" / file) for file in account_file]
     files = [Path(BASE_DIR / "videoFile" / file) for file in files]
     if enableTimer:
-        publish_datetimes = generate_schedule_time_next_day(len(files), videos_per_day, daily_times,start_days)
+        publish_datetimes = generate_schedule_time_next_day(len(files), videos_per_day, daily_times, start_days=start_days)
     else:
         publish_datetimes = [0 for i in range(len(files))]
     for index, file in enumerate(files):
@@ -36,7 +36,7 @@ def post_video_DouYin(title,files,tags,account_file,category=TencentZoneTypes.LI
     account_file = [Path(BASE_DIR / "cookiesFile" / file) for file in account_file]
     files = [Path(BASE_DIR / "videoFile" / file) for file in files]
     if enableTimer:
-        publish_datetimes = generate_schedule_time_next_day(len(files), videos_per_day, daily_times,start_days)
+        publish_datetimes = generate_schedule_time_next_day(len(files), videos_per_day, daily_times, start_days=start_days)
     else:
         publish_datetimes = [0 for i in range(len(files))]
     for index, file in enumerate(files):
@@ -55,7 +55,7 @@ def post_video_ks(title,files,tags,account_file,category=TencentZoneTypes.LIFEST
     account_file = [Path(BASE_DIR / "cookiesFile" / file) for file in account_file]
     files = [Path(BASE_DIR / "videoFile" / file) for file in files]
     if enableTimer:
-        publish_datetimes = generate_schedule_time_next_day(len(files), videos_per_day, daily_times,start_days)
+        publish_datetimes = generate_schedule_time_next_day(len(files), videos_per_day, daily_times, start_days=start_days)
     else:
         publish_datetimes = [0 for i in range(len(files))]
     for index, file in enumerate(files):
@@ -74,7 +74,7 @@ def post_video_xhs(title,files,tags,account_file,category=TencentZoneTypes.LIFES
     files = [Path(BASE_DIR / "videoFile" / file) for file in files]
     file_num = len(files)
     if enableTimer:
-        publish_datetimes = generate_schedule_time_next_day(file_num, videos_per_day, daily_times,start_days)
+        publish_datetimes = generate_schedule_time_next_day(file_num, videos_per_day, daily_times, start_days=start_days)
     else:
         publish_datetimes = 0
     for index, file in enumerate(files):
