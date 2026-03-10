@@ -216,7 +216,7 @@ curl -X POST http://localhost:5409/postVideo \
   -H "Content-Type: application/json" \
   -d '{
     "fileList": ["demo.mp4"],
-    "accountList": ["douyin_account.json"],
+    "video_id": "abcde",
     "type": 3,
     "title": "测试视频标题",
     "tags": ["标签1","标签2"],

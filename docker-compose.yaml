@@ -6,20 +6,30 @@ services:
       dockerfile: Dockerfile
     image: social-auto-upload:latest
     container_name: social-auto-upload
-
-    # 端口映射
+    restart: unless-stopped
     ports:
       - "5409:5409"
-
-    # 目录挂载（等价于 -v $(pwd)/xxx:/app/xxx）
     volumes:
-      - ./videoFile:/app/videoFile
-      - ./cookies:/app/cookiesFile
+      - downloads:/app/downloads
+      - ./douyin_credentials.json:/app/douyin_credentials.json 
       - ./db:/app/db
+    environment:
+      VIDEO_DOWNLOAD_PATH: /app/downloads
+      DOUYIN_CREDENTIALS_FILE: /app/douyin_credentials.json
+      TZ: Asia/Shanghai
+      HTTP_PROXY: ${HTTP_PROXY}
+      HTTPS_PROXY: ${HTTPS_PROXY}
+      no_proxy: asr,nlp,gateway,localhost,127.0.0.1
 
     # 等价于 -it
     tty: true
     stdin_open: true
 
-    # 容器异常退出自动重启
-    restart: unless-stopped
+volumes:
+  downloads:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/c/workspaces/yt/downloads
+

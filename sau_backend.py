@@ -398,6 +398,7 @@ def postVideo():
     productLink = data.get('productLink', '')
     productTitle = data.get('productTitle', '')
     thumbnail_path = data.get('thumbnail', '')
+    video_id = data.get('video_id', 'videos')
     is_draft = data.get('isDraft', False)  # 新增参数：是否保存为草稿
 
     videos_per_day = data.get('videosPerDay')
@@ -406,6 +407,7 @@ def postVideo():
     # 打印获取到的数据（仅作为示例）
     print("File List:", file_list)
     print("Account List:", account_list)
+    print("video_id: ", video_id)
     match type:
         case 1:
             post_video_xhs(title, file_list, tags, account_list, category, enableTimer, videos_per_day, daily_times,
@@ -414,7 +416,7 @@ def postVideo():
             post_video_tencent(title, file_list, tags, account_list, category, enableTimer, videos_per_day, daily_times,
                                start_days, is_draft)
         case 3:
-            post_video_DouYin(title, file_list, tags, account_list, category, enableTimer, videos_per_day, daily_times,
+            post_video_DouYin(title, file_list, tags, video_id, category, enableTimer, videos_per_day, daily_times,
                       start_days, thumbnail_path, productLink, productTitle)
         case 4:
             post_video_ks(title, file_list, tags, account_list, category, enableTimer, videos_per_day, daily_times,
@@ -488,6 +490,8 @@ def postVideoBatch():
         videos_per_day = data.get('videosPerDay')
         daily_times = data.get('dailyTimes')
         start_days = data.get('startDays')
+        thumbnail_path = data.get('thumbnail', '')
+        video_id = data.get('video_id', 'videos')
         # 打印获取到的数据（仅作为示例）
         print("File List:", file_list)
         print("Account List:", account_list)
@@ -498,8 +502,8 @@ def postVideoBatch():
                 post_video_tencent(title, file_list, tags, account_list, category, enableTimer, videos_per_day, daily_times,
                                    start_days)
             case 3:
-                post_video_DouYin(title, file_list, tags, account_list, category, enableTimer, videos_per_day, daily_times,
-                          start_days, productLink, productTitle)
+                post_video_DouYin(title, file_list, tags, video_id, category, enableTimer, videos_per_day, daily_times,
+                          start_days, thumbnail_path, productLink, productTitle)
             case 4:
                 post_video_ks(title, file_list, tags, account_list, category, enableTimer, videos_per_day, daily_times,
                           start_days)
