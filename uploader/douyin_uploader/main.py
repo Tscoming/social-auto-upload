@@ -84,6 +84,7 @@ class DouYinVideo(object):
         douyin_logger.debug(f"  tags: {self.tags}")
         douyin_logger.debug(f"  publish_date: {self.publish_date}")
         douyin_logger.debug(f"  account_file: {self.account_file}")   
+        douyin_logger.debug(f"  thumbnail_path: {self.thumbnail_path}")   
 
         
     async def set_schedule_time_douyin(self, page, publish_date):
