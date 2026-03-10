@@ -1,4 +1,7 @@
 import asyncio
+import base64
+import binascii
+from http.client import HTTPException
 from pathlib import Path
 
 from conf import BASE_DIR, DOUYIN_CREDENTIALS_FILE, VIDEO_DOWNLOAD_DIR
@@ -34,7 +37,15 @@ def post_video_DouYin(title,files,tags,video_id,category=TencentZoneTypes.LIFEST
                       productLink = '', productTitle = ''):
     # 生成文件的完整路径
     account_file = [ DOUYIN_CREDENTIALS_FILE ]
-    files = [Path(VIDEO_DOWNLOAD_DIR / video_id / file) for file in files]
+    filenames = []
+    for file_base64 in files:
+        if file_base64:
+            normalized = file_base64.replace("-", "+").replace("_", "/")
+            normalized += "=" * (-len(normalized) % 4)
+            filename = base64.b64decode(normalized).decode("utf-8")
+            filenames.append(filename)
+    
+    files = [Path(VIDEO_DOWNLOAD_DIR / video_id / file) for file in filenames]
     if enableTimer:
         publish_datetimes = generate_schedule_time_next_day(len(files), videos_per_day, daily_times, start_days=start_days)
     else:
