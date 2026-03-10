@@ -1,5 +1,9 @@
+import sys
 import time
 from pathlib import Path
+
+# Add parent directory to path to import conf module
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from uploader.bilibili_uploader.main import read_cookie_json_file, extract_keys_from_json, random_emoji, BilibiliUploader
 from conf import BASE_DIR

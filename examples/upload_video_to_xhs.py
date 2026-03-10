@@ -1,6 +1,10 @@
 import configparser
+import sys
 from pathlib import Path
 from time import sleep
+
+# Add parent directory to path to import conf module
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from xhs import XhsClient
 
