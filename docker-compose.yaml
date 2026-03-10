@@ -11,7 +11,7 @@ services:
       - "5409:5409"
     volumes:
       - downloads:/app/downloads
-      - ./douyin_credentials.json:/app/douyin_credentials.json 
+      - ./douyin_credentials.json:/app/douyin_credentials.json
       - ./db:/app/db
     environment:
       VIDEO_DOWNLOAD_PATH: /app/downloads
