@@ -5,14 +5,14 @@
     "version": "0.2.0",
     "configurations": [ 
         {
-            "name": "Python Debugger: Current File",
+            "name": "Python Debugger: sau_backend",
             "type": "debugpy",
             "request": "launch",
-            "program": "${file}",
+            "program": "${workspaceFolder}/sau_backend.py",
             "console": "integratedTerminal",
             "env": {
-                "VIDEO_DOWNLOAD_PATH": "/home/ubuntu/workspaces/downloads",
-                "DOUYIN_CREDENTIALS_FILE": "/home/ubuntu/workspaces/social-auto-upload/cookiesFile/douyin_account.json"
+                "VIDEO_DOWNLOAD_PATH": "/mnt/c/workspaces/yt/downloads",
+                "DOUYIN_CREDENTIALS_FILE": "/home/ubuntu/workspaces/yt/social-auto-upload/douyin_credentials.json"
             }
         }
     ]

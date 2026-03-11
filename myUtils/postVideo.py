@@ -49,12 +49,48 @@ def post_video_DouYin(title,files,tags,video_id,category=TencentZoneTypes.LIFEST
     
     files = [Path(VIDEO_DOWNLOAD_DIR / video_id / file) for file in filenames]
 
-    # 根据文件后缀名判断图片格式，如果不是jpg,jpeg,png, 则返回<图片仅支持jpg, jpeg, png格式>的错误信息并返回
-
-
-
-
-    thumbnail = Path(VIDEO_DOWNLOAD_DIR / video_id / thumbnail_path) if thumbnail_path else None
+    # 根据thumbnail_path文件后缀名判断图片格式，如果不是jpg,jpeg,png, 则转换图片格式为jpg
+    if thumbnail_path:
+        if not thumbnail_path.lower().endswith(('.jpg', '.jpeg', '.png')):
+            print(f"缩略图文件{thumbnail_path}格式不受支持，正在转换为jpg格式...")
+            try:
+                from PIL import Image
+                thumbnail_path_obj = Path(VIDEO_DOWNLOAD_DIR / video_id / thumbnail_path)
+                with Image.open(thumbnail_path_obj) as img:
+                    new_thumbnail_path = thumbnail_path_obj.with_suffix('.jpg')
+                    img.convert('RGB').save(new_thumbnail_path, 'JPEG')
+                    thumbnail = new_thumbnail_path.name
+                    print(f"缩略图已成功转换为{thumbnail_path}")
+            except ImportError:
+                print("PIL库未安装，无法转换缩略图格式。请安装Pillow库以支持缩略图格式转换。")
+        else:
+             thumbnail = Path(VIDEO_DOWNLOAD_DIR / video_id / thumbnail_path) if thumbnail_path else None
+    else:
+        # 读取视频文件所在目录下的所有图片文件，作为缩略图候选列表
+        video_dir = Path(VIDEO_DOWNLOAD_DIR / video_id)
+        # list all image files in the video directory
+        image_files = [f for f in video_dir.iterdir() if f.is_file() and f.suffix.lower() in ['.jpg', '.jpeg', '.png', '.webp']]
+        if image_files:
+            # 如果有图片文件，选择第一个作为缩略图
+            thumbnail = image_files[0]
+            if thumbnail.suffix.lower() not in ['.jpg', '.jpeg', '.png']:
+                print(f"视频目录下的图片文件{thumbnail}格式不受支持，正在转换为jpg格式...")
+                try:
+                    from PIL import Image
+                    with Image.open(thumbnail) as img:
+                        new_thumbnail_path = thumbnail.with_suffix('.jpg')
+                        img.convert('RGB').save(new_thumbnail_path, 'JPEG')
+                        thumbnail = new_thumbnail_path
+                        print(f"缩略图已成功转换为{thumbnail}")
+                except ImportError:
+                    print("PIL库未安装，无法转换缩略图格式。请安装Pillow库以支持缩略图格式转换。")
+             else:
+                print(f"未提供缩略图路径，已自动选择视频目录下的图片文件{thumbnail}作为缩略图。")
+        else:
+            thumbnail = None
+            print("未提供缩略图路径，且视频目录下没有图片文件，无法设置缩略图。")
+        
+    
 
     print(f"thumbnail_path: {thumbnail}")
 
