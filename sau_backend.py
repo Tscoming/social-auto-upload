@@ -417,8 +417,16 @@ def postVideo():
             post_video_tencent(title, file_list, tags, account_list, category, enableTimer, videos_per_day, daily_times,
                                start_days, is_draft)
         case 3:
-            post_video_DouYin(title, file_list, tags, video_id, category, enableTimer, videos_per_day, daily_times,
+            result = post_video_DouYin(title, file_list, tags, video_id, category, enableTimer, videos_per_day, daily_times,
                       start_days, thumbnail_path, productLink, productTitle)
+            # 检查返回结果是否为错误
+            if result and isinstance(result, dict) and result.get("status") == "error":
+                return jsonify(
+                    {
+                        "code": 500,
+                        "msg": result.get("message"),
+                        "data": None
+                    }), 500
         case 4:
             post_video_ks(title, file_list, tags, account_list, category, enableTimer, videos_per_day, daily_times,
                       start_days)
@@ -503,8 +511,16 @@ def postVideoBatch():
                 post_video_tencent(title, file_list, tags, account_list, category, enableTimer, videos_per_day, daily_times,
                                    start_days)
             case 3:
-                post_video_DouYin(title, file_list, tags, video_id, category, enableTimer, videos_per_day, daily_times,
+                result = post_video_DouYin(title, file_list, tags, video_id, category, enableTimer, videos_per_day, daily_times,
                           start_days, thumbnail_path, productLink, productTitle)
+                # 检查返回结果是否为错误
+                if result and isinstance(result, dict) and result.get("status") == "error":
+                    return jsonify(
+                        {
+                            "code": 500,
+                            "msg": result.get("message"),
+                            "data": None
+                        }), 500
             case 4:
                 post_video_ks(title, file_list, tags, account_list, category, enableTimer, videos_per_day, daily_times,
                           start_days)

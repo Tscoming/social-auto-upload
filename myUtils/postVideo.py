@@ -111,7 +111,14 @@ def post_video_DouYin(title,files,tags,video_id,category=TencentZoneTypes.LIFEST
             print(f"Hashtag：{tags}")
             print(f"缩略图路径：{thumbnail}" )
             app = DouYinVideo(title, str(file), tags, publish_datetimes[index], cookie, thumbnail, productLink, productTitle)
-            asyncio.run(app.main(), debug=False)
+            result = asyncio.run(app.main(), debug=False)
+            # 检查返回结果是否为错误
+            if result and isinstance(result, dict) and result.get("status") == "error":
+                print(f"Upload failed: {result.get('message')}")  # 日志可以是中文，但API返回信息是英文
+                return result  # 返回错误信息而不是抛出异常
+
+    # 如果所有视频都上传成功，返回None表示成功
+    return None
 
 
 def post_video_ks(title,files,tags,account_file,category=TencentZoneTypes.LIFESTYLE.value,enableTimer=False,videos_per_day = 1, daily_times=None,start_days = 0):

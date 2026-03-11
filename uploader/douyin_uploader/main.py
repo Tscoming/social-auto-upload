@@ -107,38 +107,53 @@ class DouYinVideo(object):
         douyin_logger.info('视频出错了，重新上传中')
         await page.locator('div.progress-div [class^="upload-btn-input"]').set_input_files(self.file_path)
 
-    async def upload(self, playwright: Playwright) -> None:
-        # 使用 Chromium 浏览器启动一个浏览器实例
-        if self.local_executable_path:
-            browser = await playwright.chromium.launch(headless=self.headless, executable_path=self.local_executable_path)
-        else:
-            browser = await playwright.chromium.launch(headless=self.headless)
-        # 创建一个浏览器上下文，使用指定的 cookie 文件
-        context = await browser.new_context(storage_state=f"{self.account_file}")
-        context = await set_init_script(context)
-
-        # 创建一个新的页面
-        page = await context.new_page()
-        # 访问指定的 URL
-        await page.goto("https://creator.douyin.com/creator-micro/content/upload", timeout=60000)  # 增加超时时间到60秒
-        douyin_logger.info(f'[+]正在上传-------{self.title}.mp4')
-        # 等待页面跳转到指定的 URL，没进入，则自动等待到超时
-        douyin_logger.info(f'[-] 正在打开主页...')
+    async def upload(self, playwright: Playwright):
         try:
-            await page.wait_for_url("https://creator.douyin.com/creator-micro/content/upload", timeout=60000)  # 增加超时时间到60秒
-        except:
-            douyin_logger.info(f'[-] 等待超时，页面可能仍在加载中...')
-            # 如果等待URL超时，尝试等待页面上特定元素出现
+            # 使用 Chromium 浏览器启动一个浏览器实例
+            if self.local_executable_path:
+                browser = await playwright.chromium.launch(headless=self.headless, executable_path=self.local_executable_path)
+            else:
+                browser = await playwright.chromium.launch(headless=self.headless)
+            # 创建一个浏览器上下文，使用指定的 cookie 文件
+            context = await browser.new_context(storage_state=f"{self.account_file}")
+            context = await set_init_script(context)
+
+            # 创建一个新的页面
+            page = await context.new_page()
+            # 访问指定的 URL
+            await page.goto("https://creator.douyin.com/creator-micro/content/upload", timeout=60000)  # 增加超时时间到60秒
+            douyin_logger.info(f'[+]正在上传-------{self.title}.mp4')
+            # 等待页面跳转到指定的 URL，没进入，则自动等待到超时
+            douyin_logger.info(f'[-] 正在打开主页...')
             try:
-                await page.wait_for_selector('div[class^="container"] input', timeout=30000)  # 等待上传按钮出现
+                await page.wait_for_url("https://creator.douyin.com/creator-micro/content/upload", timeout=60000)  # 增加超时时间到60秒
             except:
-                douyin_logger.info(f'[-] 未找到上传按钮，尝试等待页面加载完成...')
-                await page.wait_for_load_state("networkidle", timeout=30000)  # 等待网络空闲
-        # 点击 "上传视频" 按钮
-        upload_button = page.locator("div[class^='container'] input")
-        # 等待上传按钮可交互
-        await upload_button.wait_for(state="visible", timeout=30000)
-        await upload_button.set_input_files(self.file_path)
+                douyin_logger.info(f'[-] 等待超时，页面可能仍在加载中...')
+                # 如果等待URL超时，尝试等待页面上特定元素出现
+                try:
+                    await page.wait_for_selector('div[class^="container"] input', timeout=30000)  # 等待上传按钮出现
+                except:
+                    douyin_logger.info(f'[-] 未找到上传按钮，尝试等待页面加载完成...')
+                    await page.wait_for_load_state("networkidle", timeout=30000)  # 等待网络空闲
+            # 点击 "上传视频" 按钮
+            try:
+                upload_button = page.locator("div[class^='container'] input")
+                # 等待上传按钮可交互
+                await upload_button.wait_for(state="visible", timeout=30000)
+                await upload_button.set_input_files(self.file_path)
+            except Exception as e:
+                douyin_logger.error(f"上传按钮定位失败: {str(e)}")
+                # 检查是否是登录页面
+                if await page.get_by_text('手机号登录').count() or await page.get_by_text('扫码登录').count():
+                    douyin_logger.error("检测到登录页面，cookie可能已过期，请重新登录")
+                else:
+                    douyin_logger.error("页面元素定位失败，可能页面结构已更新")
+                raise e  # 重新抛出异常，让上层处理
+        except Exception as e:
+            # 捕获所有异常并返回错误信息
+            douyin_logger.error(f"上传视频失败: {str(e)}")
+            # 返回错误信息而不是抛出异常
+            return {"status": "error", "message": f"Upload failed: {str(e)}"}
 
         # 等待页面跳转到指定的 URL 2025.01.08修改在原有基础上兼容两种页面
         while True:
@@ -414,6 +429,9 @@ class DouYinVideo(object):
 
     async def main(self):
         async with async_playwright() as playwright:
-            await self.upload(playwright)
+            result = await self.upload(playwright)
+            # 如果upload方法返回了错误信息，则返回该信息
+            if result and isinstance(result, dict) and result.get("status") == "error":
+                return result
 
 
