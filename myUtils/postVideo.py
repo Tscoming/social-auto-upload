@@ -2,6 +2,7 @@ import asyncio
 import base64
 import binascii
 from http.client import HTTPException
+import os
 from pathlib import Path
 
 from conf import BASE_DIR, DOUYIN_CREDENTIALS_FILE, VIDEO_DOWNLOAD_DIR
@@ -53,8 +54,9 @@ def post_video_DouYin(title,files,tags,video_id,category=TencentZoneTypes.LIFEST
 
 
 
-    thumbnail_path = Path(VIDEO_DOWNLOAD_DIR / video_id / thumbnail_path)
-    print(f"thumbnail_path: {thumbnail_path}")
+    thumbnail = Path(VIDEO_DOWNLOAD_DIR / video_id / thumbnail_path) if thumbnail_path else None
+
+    print(f"thumbnail_path: {thumbnail}")
 
     if enableTimer:
         publish_datetimes = generate_schedule_time_next_day(len(files), videos_per_day, daily_times, start_days=start_days)
@@ -71,7 +73,8 @@ def post_video_DouYin(title,files,tags,video_id,category=TencentZoneTypes.LIFEST
             print(f"视频文件名：{file}")
             print(f"标题：{title}")
             print(f"Hashtag：{tags}")
-            app = DouYinVideo(title, str(file), tags, publish_datetimes[index], cookie, thumbnail_path, productLink, productTitle)
+            print(f"缩略图路径：{thumbnail}" )
+            app = DouYinVideo(title, str(file), tags, publish_datetimes[index], cookie, thumbnail, productLink, productTitle)
             asyncio.run(app.main(), debug=False)
 
 

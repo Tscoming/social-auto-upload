@@ -1,11 +1,10 @@
-
-curl -X POST http://localhost:6409/postVideo   -H "Content-Type: application/json"   -d '{
-  "fileList": ["TG92ZSBpcyBCbGluZCBTZWFzb24gMTDvvJogVGhlIEZpbmFsZSDvvZwgU25lYWsgUGVlayDvvZwgTmV0ZmxpeF96aC5tcDQ="],
-  "video_id": "C-7EA92cq7w",
+curl -X POST http://localhost:5409/postVideo   -H "Content-Type: application/json"   -d '{
+  "fileList": ["TUVSTUFJRCBPZmZpY2lhbCBUcmFpbGVyICgyMDI2KSBOZXcgVXBjb21pbmcgTW92aWVzIDRLX3poLm1wNA=="],
+  "video_id": "tADEW1yvOyQ",
   "type": 3,
-  "title": "《爱情盲选》第十季：大结局 | 抢先看 | Netflix\nVic分享了他对与Christine婚礼日的期待，并透露了未来妻子准备的亲密礼物。《爱情盲选》第十季正在热播中。单身人士希望通过非常规的现代约会方式找到真爱，他们在不见面的情况下选择结婚对象。在接下来的几周里，新订婚的情侣们将同居生活、筹备婚礼，并测试他们的物理连接是否与在隔离舱中建立的强烈情感纽带相匹配。当婚礼日到来时，现实世界的因素和外部压力会让他们分开，还是会与盲目爱上的人结婚？由Nick和Vanessa Lachey主持，这个令人上瘾的12集社交实验将揭示外貌、种族或年龄是否真的重要——或者爱情是否真的是盲目的。",
-  "tags":  ["爱情盲选","真人秀","约会实验","婚礼筹备","情感纽带"],
-  "thumbnail": "Love is Blind Season 10： The Finale ｜ Sneak Peek ｜ Netflix.webp",
+  "title": "《美人鱼》官方预告片（2026）\n《美人鱼》（2026）是一部融合生物神话与人类绝望的黑暗惊悚片。故事讲述一名陷入困境的佛罗里达男子发现了一只受伤的美人鱼，并决心保护她。随着关于这种神秘生物的谣言传播开来，外部人员开始逼近，每个人都怀有自己的动机。最初的一次奇怪相遇很快演变成一场危险的斗争，目的是保护美人鱼免受那些想要利用她的人的伤害。影片混合了黑色幽默、悬疑和生物特征的紧张感，为海洋神话和传奇的美人鱼故事带来了不同寻常的转折。",
+  "tags":  ["美人鱼","黑暗惊悚","生物神话","悬疑","黑色幽默"],
+  "thumbnail": "MERMAID Official Trailer (2026) New Upcoming Movies 4K.jpg",
   "category": 0,
   "enableTimer": false,
   "videosPerDay": 1,
