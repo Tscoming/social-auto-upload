@@ -64,7 +64,7 @@ def post_video_DouYin(title,files,tags,video_id,category=TencentZoneTypes.LIFEST
             except ImportError:
                 print("PIL库未安装，无法转换缩略图格式。请安装Pillow库以支持缩略图格式转换。")
         else:
-             thumbnail = Path(VIDEO_DOWNLOAD_DIR / video_id / thumbnail_path) if thumbnail_path else None
+            thumbnail = Path(VIDEO_DOWNLOAD_DIR / video_id / thumbnail_path) if thumbnail_path else None
     else:
         # 读取视频文件所在目录下的所有图片文件，作为缩略图候选列表
         video_dir = Path(VIDEO_DOWNLOAD_DIR / video_id)
@@ -84,7 +84,7 @@ def post_video_DouYin(title,files,tags,video_id,category=TencentZoneTypes.LIFEST
                         print(f"缩略图已成功转换为{thumbnail}")
                 except ImportError:
                     print("PIL库未安装，无法转换缩略图格式。请安装Pillow库以支持缩略图格式转换。")
-             else:
+            else:
                 print(f"未提供缩略图路径，已自动选择视频目录下的图片文件{thumbnail}作为缩略图。")
         else:
             thumbnail = None
