@@ -4,6 +4,7 @@ import sqlite3
 import threading
 import time
 import uuid
+import argparse
 from pathlib import Path
 from queue import Queue
 from flask_cors import CORS
@@ -671,4 +672,9 @@ def sse_stream(status_queue):
             time.sleep(0.1)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0' ,port=5409)
+    parser = argparse.ArgumentParser(description='Social Auto Upload Backend Server')
+    parser.add_argument('--host', type=str, default='0.0.0.0', help='Host address to bind (default: 0.0.0.0)')
+    parser.add_argument('--port', type=int, default=5409, help='Port to bind (default: 5409)')
+    args = parser.parse_args()
+    
+    app.run(host=args.host, port=args.port)

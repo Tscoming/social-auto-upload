@@ -32,6 +32,7 @@ def post_video_tencent(title,files,tags,account_file,category=TencentZoneTypes.L
             asyncio.run(app.main(), debug=False)
 
 
+
 def post_video_DouYin(title,files,tags,video_id,category=TencentZoneTypes.LIFESTYLE.value,enableTimer=False,videos_per_day = 1, daily_times=None,start_days = 0,
                       thumbnail_path = '',
                       productLink = '', productTitle = ''):
@@ -46,6 +47,15 @@ def post_video_DouYin(title,files,tags,video_id,category=TencentZoneTypes.LIFEST
             filenames.append(filename)
     
     files = [Path(VIDEO_DOWNLOAD_DIR / video_id / file) for file in filenames]
+
+    # 根据文件后缀名判断图片格式，如果不是jpg,jpeg,png, 则返回<图片仅支持jpg, jpeg, png格式>的错误信息并返回
+
+
+
+
+    thumbnail_path = Path(VIDEO_DOWNLOAD_DIR / video_id / thumbnail_path)
+    print(f"thumbnail_path: {thumbnail_path}")
+
     if enableTimer:
         publish_datetimes = generate_schedule_time_next_day(len(files), videos_per_day, daily_times, start_days=start_days)
     else:

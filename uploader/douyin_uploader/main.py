@@ -119,13 +119,25 @@ class DouYinVideo(object):
         # 创建一个新的页面
         page = await context.new_page()
         # 访问指定的 URL
-        await page.goto("https://creator.douyin.com/creator-micro/content/upload")
+        await page.goto("https://creator.douyin.com/creator-micro/content/upload", timeout=60000)  # 增加超时时间到60秒
         douyin_logger.info(f'[+]正在上传-------{self.title}.mp4')
         # 等待页面跳转到指定的 URL，没进入，则自动等待到超时
         douyin_logger.info(f'[-] 正在打开主页...')
-        await page.wait_for_url("https://creator.douyin.com/creator-micro/content/upload")
+        try:
+            await page.wait_for_url("https://creator.douyin.com/creator-micro/content/upload", timeout=60000)  # 增加超时时间到60秒
+        except:
+            douyin_logger.info(f'[-] 等待超时，页面可能仍在加载中...')
+            # 如果等待URL超时，尝试等待页面上特定元素出现
+            try:
+                await page.wait_for_selector('div[class^="container"] input', timeout=30000)  # 等待上传按钮出现
+            except:
+                douyin_logger.info(f'[-] 未找到上传按钮，尝试等待页面加载完成...')
+                await page.wait_for_load_state("networkidle", timeout=30000)  # 等待网络空闲
         # 点击 "上传视频" 按钮
-        await page.locator("div[class^='container'] input").set_input_files(self.file_path)
+        upload_button = page.locator("div[class^='container'] input")
+        # 等待上传按钮可交互
+        await upload_button.wait_for(state="visible", timeout=30000)
+        await upload_button.set_input_files(self.file_path)
 
         # 等待页面跳转到指定的 URL 2025.01.08修改在原有基础上兼容两种页面
         while True:
