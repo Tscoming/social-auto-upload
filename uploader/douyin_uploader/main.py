@@ -156,12 +156,15 @@ class DouYinVideo(object):
             return {"status": "error", "message": f"Upload failed: {str(e)}"}
 
         # 等待页面跳转到指定的 URL 2025.01.08修改在原有基础上兼容两种页面
-        while True:
+        max_publish_page_retries = 10
+        entered_publish_page = False
+        for attempt in range(1, max_publish_page_retries + 1):
             try:
                 # 尝试等待第一个 URL
                 await page.wait_for_url(
                     "https://creator.douyin.com/creator-micro/content/publish?enter_from=publish_page", timeout=3000)
                 douyin_logger.info("[+] 成功进入version_1发布页面!")
+                entered_publish_page = True
                 break  # 成功进入页面后跳出循环
             except Exception:
                 try:
@@ -170,11 +173,17 @@ class DouYinVideo(object):
                         "https://creator.douyin.com/creator-micro/content/post/video?enter_from=publish_page",
                         timeout=3000)
                     douyin_logger.info("[+] 成功进入version_2发布页面!")
-
+                    entered_publish_page = True
                     break  # 成功进入页面后跳出循环
                 except:
-                    print("  [-] 超时未进入视频发布页面，重新尝试...")
-                    await asyncio.sleep(0.5)  # 等待 0.5 秒后重新尝试
+                    douyin_logger.info(f"  [-] 超时未进入视频发布页面，重新尝试...({attempt}/{max_publish_page_retries})")
+                    await asyncio.sleep(10)  # 等待 10 秒后重新尝试
+
+        if not entered_publish_page:
+            douyin_logger.error("  [-] 连续多次尝试仍未进入发布页面，终止上传")
+            await context.close()
+            await browser.close()
+            return {"status": "error", "message": "Timeout entering publish page"}
         # 填充标题和话题
         # 检查是否存在包含输入框的元素
         # 这里为了避免页面变化，故使用相对位置定位：作品标题父级右侧第一个元素的input子元素
