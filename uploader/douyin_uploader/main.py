@@ -249,17 +249,46 @@ class DouYinVideo(object):
 
         # 判断视频是否发布成功
         while True:
-            # 判断视频是否发布成功
             try:
+                # 处理"对作品内容添加声明"弹窗
+                declaration_dialog = page.get_by_text('对作品内容添加声明')
+                if await declaration_dialog.count():
+                    douyin_logger.info("  [-] 检测到内容声明弹窗，选择'无需添加自主声明'...")
+                    
+                    # 用 label 定位单选项并点击（更可靠）
+                    no_declaration_label = page.locator('label').filter(has_text='无需添加自主声明')
+                    if await no_declaration_label.count():
+                        await no_declaration_label.click()
+                        douyin_logger.info("  [-] 已点击'无需添加自主声明' label")
+                    else:
+                        # 备用方案：直接点击 input[type=radio] 
+                        radio_options = page.locator('input[type="radio"]')
+                        count = await radio_options.count()
+                        douyin_logger.info(f"  [-] 找到 {count} 个单选项，尝试点击最后一个")
+                        if count > 0:
+                            await radio_options.nth(count - 1).click()  # "无需添加自主声明"是最后一项
+                    
+                    await asyncio.sleep(1)
+                    
+                    # 点击确定按钮（弹窗内的确定，避免误点其他按钮）
+                    confirm_button = page.locator('button').filter(has_text='确定')
+                    confirm_count = await confirm_button.count()
+                    douyin_logger.info(f"  [-] 找到 {confirm_count} 个确定按钮")
+                    if confirm_count > 0:
+                        await confirm_button.last.click()
+                        douyin_logger.info("  [-] 已点击确定按钮")
+                    
+                    await asyncio.sleep(2)
+                    continue
+
                 publish_button = page.get_by_role('button', name="发布", exact=True)
                 if await publish_button.count():
                     await publish_button.click()
                 await page.wait_for_url("https://creator.douyin.com/creator-micro/content/manage**",
-                                        timeout=3000)  # 如果自动跳转到作品页面，则代表发布成功
+                                        timeout=3000)
                 douyin_logger.success("  [-]视频发布成功")
                 break
             except:
-                # 尝试处理封面问题
                 await self.handle_auto_video_cover(page)
                 douyin_logger.info("  [-] 视频正在发布中...")
                 await page.screenshot(full_page=True)

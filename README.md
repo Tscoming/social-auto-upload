@@ -228,6 +228,24 @@ curl -X POST http://localhost:5409/postVideo \
     "isDraft": false
   }' 
 
+# example
+curl -X POST http://localhost:5409/postVideo \
+  -H "Content-Type: application/json" \
+  -d '
+{
+  "fileList": ["TXVyZGVyIE1pbmRmdWxseSAtIFNlYXNvbiAyIC0gT2ZmaWNpYWwgVHJhaWxlciAtIE5ldGZsaXhfemgubXA0"],
+  "video_id": "0fMsAQ83KKc",
+  "type": 3,
+  "title": "正念谋杀：第二季 | 官方预告片 | Netflix\n本视频是《正念谋杀》第二季的官方预告片。剧情讲述Björn在冥想和谋杀之间遇到了意想不到的伴侣——他的内在小孩。第二季将于5月28日上线，仅在Netflix播出。Björn Diemel回归，比以往更加正念，但经营黑手党家族时保持冷静很困难，需要探索内在小孩的需求。",
+  "tags":  ["正念谋杀","犯罪剧","黑手党","预告片","Netflix"],
+  "category": 0,
+  "enableTimer": false,
+  "videosPerDay": 1,
+  "dailyTimes": [],
+  "startDays": 0,
+  "isDraft": false
+} 
+'
 
 # 定时发布视频
 curl -X POST http://localhost:5409/postVideo   -H "Content-Type: application/json"   -d '{
