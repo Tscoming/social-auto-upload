@@ -156,7 +156,7 @@ class DouYinVideo(object):
             return {"status": "error", "message": f"Upload failed: {str(e)}"}
 
         # 等待页面跳转到指定的 URL 2025.01.08修改在原有基础上兼容两种页面
-        max_publish_page_retries = 10
+        max_publish_page_retries = 100
         entered_publish_page = False
         for attempt in range(1, max_publish_page_retries + 1):
             try:
