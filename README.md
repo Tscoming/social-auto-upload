@@ -51,33 +51,6 @@
     -   [ ] 自动化上传 (更智能的调度策略)
     -   [ ] 多线程/异步上传优化
     -   [ ] Slack/消息推送通知
-
-### 2025.10.30目前现状
-该项目本人很长一段时间没维护了，有比较大的问题也是能简单快速修复就修复掉
-
-因为我自己也在创业，每天时间都用不完
-
-目前问题主要集中在
-1. 小红书部分，这部分是直接适用xhs这个库来实现的
-2. web 端（vue版本），这个版本是群友LeeDebug他帮忙做的（再次感谢他）
-
-因为我日常也在用，我用的不是web端，而是最初`uploader`文件夹里的版本，也就是文档里提到的部分https://sap-doc.nasdaddy.com/
-所以这里一般遇到的问题，我都会尝试去解决，一并推送到该仓库
-
-目前能遇到的问题，基本上都比较小，可能是元素变化导致的
-在初期设计的时候，其实我已经参考了某些不可变元素去选择，极大的避免了后期因为平台页面修改导致的元素变化
-
-该项目不仅仅是技术人员，有不少是非技术的从业人员，他们是没能力修复一个简单弱小的bug
-为了能帮助更多的人，所以呼吁**技术小伙伴**
-
-如果大家
-- 修复了一些bug
-- 增加一些对大家有帮助的功能
-
-请积极的提出pr，我会想尽可能的确认后合并的，在此感谢大家对于开源项目的支持，帮助更多的人
-
-我自己也会尽100%的力量，在自己项目稳定后，修bug，加更多的平台，开发出gradio版本（更易部署），大家谅解
-
 ---
 
 ## 🚀支持的平台
@@ -233,11 +206,11 @@ curl -X POST http://localhost:5409/postVideo \
   -H "Content-Type: application/json" \
   -d '
 {
-  "fileList": ["TXVyZGVyIE1pbmRmdWxseSAtIFNlYXNvbiAyIC0gT2ZmaWNpYWwgVHJhaWxlciAtIE5ldGZsaXhfemgubXA0"],
-  "video_id": "0fMsAQ83KKc",
+  "fileList": ["Q2FwZSBGZWFyIOKAlCBPZmZpY2lhbCBUcmFpbGVyIC0gQXBwbGUgVFZfemgubXA0"],
+  "video_id": "FZ3sN5E-mBU",
   "type": 3,
-  "title": "正念谋杀：第二季 | 官方预告片 | Netflix\n本视频是《正念谋杀》第二季的官方预告片。剧情讲述Björn在冥想和谋杀之间遇到了意想不到的伴侣——他的内在小孩。第二季将于5月28日上线，仅在Netflix播出。Björn Diemel回归，比以往更加正念，但经营黑手党家族时保持冷静很困难，需要探索内在小孩的需求。",
-  "tags":  ["正念谋杀","犯罪剧","黑手党","预告片","Netflix"],
+  "title": "恐惧角 — 官方预告片\n本剧讲述一名被定罪的杀手出狱后寻求复仇的故事。剧情灵感来源于1991年马丁·斯科塞斯执导、史蒂文·斯皮尔伯格制作的同名电影改编版。故事围绕幸福已婚的律师夫妇安娜和汤姆展开，当他们曾负责送进监狱的臭名昭著杀手马克斯·卡迪被释放出狱后，一场风暴即将来临，而卡迪一心想要复仇。该系列剧集改编自小说《行刑者》，这部小说曾启发了1962年格里高利·派克主演的同名环球影业电影以及1991年备受赞誉的斯科塞斯改编版。",
+  "tags":  ["犯罪剧集","复仇故事","杀手出狱","律师夫妇","悬疑惊悚"],
   "category": 0,
   "enableTimer": false,
   "videosPerDay": 1,
@@ -319,81 +292,3 @@ python cli_main.py <platform> <account_name> upload <video_file> [-pt {0,1}] [-t
 ## 📃详细文档
 
 更详细的文档和说明，请查看：[social-auto-upload 官方文档](https://sap-doc.nasdaddy.com/)
-
-## 🐾交流与支持
-
-[☕ Donate as u like](https://www.buymeacoffee.com/hysn2001m) - 如果您觉得这个项目对您有帮助，可以考虑赞助。
-
-如果您也是独立开发者、技术爱好者，对 #技术变现 #AI创业 #跨境电商 #自动化工具 #视频创作 等话题感兴趣，欢迎加入社群交流。
-
-### Creator
-
-<table>
-    <td align="center">
-        <a href="https://sap-doc.nasdaddy.com/">
-            <img src="media/mp.jpg" width="200px" alt="NasDaddy公众号"/>
-            <br />
-            <sub><b>微信公众号</b></sub>
-        </a>
-        <br />
-        <a href="https://github.com/dreammis/social-auto-upload/commits?author=dreammis" title="Code">💻</a>
-        <br />
-        关注公众号，后台回复 `上传` 获取加群方式
-    </td>
-    <td align="center">
-        <a href="https://sap-doc.nasdaddy.com/">
-            <img src="media/QR.png" width="200px" alt="赞赏码/入群引导"/>
-            <br />
-            <sub><b>交流群 (通过公众号获取)</b></sub>
-        </a>
-        <br />
-        <a href="https://sap-doc.nasdaddy.com/" title="Documentation">📖</a>
-        <br />
-        如果您觉得项目有用，可以考虑打赏支持一下
-    </td>
-</table>
-
-### Active Core Team
-
-<table>
-    <td align="center">
-        <a href="https://leedebug.github.io/">
-            <img src="media/edan-qrcode.png" width="200px" alt="Edan Lee"/>
-            <br />
-            <sub><b>Edan Lee</b></sub>
-        </a>
-        <br />
-        <a href="https://github.com/dreammis/social-auto-upload/commits?author=LeeDebug" title="Code">💻</a>
-        <a href="https://leedebug.github.io/" title="Documentation">📖</a>
-        <br />
-        封装了 api 接口和 web 前端管理界面
-        <br />
-        （请注明来意：进群、学习、企业咨询等）
-    </td>
-</table>
-
-## 🤝贡献指南
-
-欢迎各种形式的贡献，包括但不限于：
-
--   提交 Bug报告 和 Feature请求。
--   改进代码、文档。
--   分享使用经验和教程。
-
-如果您希望贡献代码，请遵循以下步骤：
-
-1.  Fork 本仓库。
-2.  创建一个新的分支 (`git checkout -b feature/YourFeature` 或 `bugfix/YourBugfix`)。
-3.  提交您的更改 (`git commit -m 'Add some feature'`)。
-4.  Push到您的分支 (`git push origin feature/YourFeature`)。
-5.  创建一个 Pull Request。
-
-## 📜许可证
-
-本项目暂时采用 [MIT License](LICENSE) 开源许可证。
-
-## ⭐Star-History
-
-> 如果这个项目对您有帮助，请给一个 ⭐ Star 以表示支持！
-
-[![Star History Chart](https://api.star-history.com/svg?repos=dreammis/social-auto-upload&type=Date)](https://star-history.com/#dreammis/social-auto-upload&Date)

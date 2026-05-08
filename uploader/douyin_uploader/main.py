@@ -12,7 +12,19 @@ from utils.log import douyin_logger
 
 async def cookie_auth(account_file):
     async with async_playwright() as playwright:
-        browser = await playwright.chromium.launch(headless=LOCAL_CHROME_HEADLESS)
+        browser = await playwright.chromium.launch(
+            headless=False,
+            args=[
+                "--disable-gpu",
+                "--disable-software-rasterizer",
+                "--disable-dev-shm-usage",
+                "--disable-setuid-sandbox",
+                "--no-sandbox",
+                "--disable-features=UseSkiaRenderer",
+                "--disable-features=UseOzonePlatform",
+                "--ozone-platform=x11",
+            ]
+        )
         context = await browser.new_context(storage_state=account_file)
         context = await set_init_script(context)
         # 创建一个新的页面
